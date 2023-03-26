@@ -1,0 +1,1074 @@
+<header>
+  <nav class="bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
+    <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
+      <a href="https://flowbite.com" class="flex items-center">
+        <img src="https://flowbite.com/docs/images/logo.svg" class="mr-3 h-6 sm:h-9"
+             alt="Flowbite Logo"/>
+        <span
+          class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Leyton</span>
+      </a>
+      <div class="flex items-center lg:order-2">
+        <a href="#" (click)="changeTitle('Users')"
+           class="text-gray-800 dark:text-white hover:bg-blue-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-blue-800 focus:outline-none dark:focus:ring-gray-800">
+          {{user?.firstname}}
+        </a>
+        <a href="#"
+           (click)="onLogOut()"
+           class="dark:hover:bg-blue-800 text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
+          Log Out
+        </a>
+        <button data-collapse-toggle="mobile-menu-2" type="button"
+                class="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                aria-controls="mobile-menu-2" aria-expanded="false">
+          <span class="sr-only">Open main menu</span>
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
+               xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd"
+                  d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                  clip-rule="evenodd"></path>
+          </svg>
+          <svg class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
+               xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd"
+                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                  clip-rule="evenodd"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+</header>
+
+
+<div class="object-center mb-4 border-b border-gray-200 dark:border-gray-700 text-center">
+  <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="myTab"
+      data-tabs-toggle="#myTabContent" role="tablist">
+    <li class="mr-2" role="presentation">
+      <button class="inline-block p-4 border-b-2 rounded-t-lg"
+              id="users-tab"
+              data-tabs-target="#users"
+              type="button"
+              role="tab"
+              aria-controls="profile"
+              (click)="changeTitle('Users')"
+              aria-selected="false">
+        Users
+      </button>
+    </li>
+    <li class="mr-2" role="presentation">
+      <button
+        class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+        id="settings-tab"
+        data-tabs-target="#settings"
+        type="button"
+        role="tab"
+        (click)="changeTitle('Settings')"
+        [hidden]="!isAdmin"
+        aria-controls="dashboard"
+        aria-selected="false">
+        Settings
+      </button>
+    </li>
+    <li class="mr-2" role="presentation">
+      <button
+        class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+        id="profile-tab"
+        data-tabs-target="#profile"
+        type="button"
+        role="tab"
+        (click)="changeTitle('Profile')"
+        aria-controls="dashboard"
+        aria-selected="false">
+        Profile
+      </button>
+    </li>
+  </ul>
+</div>
+
+<h1 *ngIf="titleAction$ | async as title"
+    class="text-center mt-5 mb-4 text-4xl font-extrabold leading-none tracking-tight text-sky-400 md:text-lg lg:text-lg dark:text-sky-400">{{ title }}</h1>
+
+<!--tabs-->
+
+<div id="myTabContent" class="bg-gray-50">
+  <div class="bg-gray-50" id="users" role="tabpanel" aria-labelledby="users-tab">
+    <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
+      <div class="mx-auto max-w-screen-xl px-4 lg:px-12">
+        <!-- Start coding here -->
+        <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
+          <div
+            class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
+            <div class="w-full md:w-1/2">
+              <form #searchForm="ngForm" class="flex items-center">
+                <label for="simple-search" class="sr-only">Search</label>
+                <div class="relative w-full">
+                  <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                    <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400"
+                         fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd"
+                            d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                            clip-rule="evenodd"/>
+                    </svg>
+                  </div>
+                  <input type="search"
+                         name="searchTerm"
+                         ngModel
+                         (ngModelChange)="searchUsers(searchForm.value.searchTerm)"
+                         id="simple-search"
+                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                         placeholder="Search"
+                         required>
+                </div>
+              </form>
+            </div>
+            <div
+              class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
+              <button type="button"
+                      data-modal-target="add-User-modal"
+                      id="addUser"
+                      [hidden]="!isAdminOrManager"
+                      data-modal-toggle="add-User-modal"
+                      class="flex items-center justify-center text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
+                <svg class="h-3.5 w-3.5 mr-2" fill="currentColor" viewbox="0 0 20 20"
+                     xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path clip-rule="evenodd" fill-rule="evenodd"
+                        d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"/>
+                </svg>
+                Add product
+              </button>
+              <div class="flex items-center space-x-3 w-full md:w-auto">
+                <button id="actionsDropdownButton" data-dropdown-toggle="actionsDropdown"
+                        class="w-full md:w-auto flex items-center justify-center py-2 px-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                        type="button">
+                  <svg class="-ml-1 mr-1.5 w-5 h-5" fill="currentColor" viewbox="0 0 20 20"
+                       xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path clip-rule="evenodd" fill-rule="evenodd"
+                          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/>
+                  </svg>
+                  Actions
+                </button>
+                <div id="actionsDropdown"
+                     class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
+                  <ul class="py-1 text-sm text-gray-700 dark:text-gray-200"
+                      aria-labelledby="actionsDropdownButton">
+                    <li>
+                      <a href="#"
+                         class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Mass
+                        Edit</a>
+                    </li>
+                  </ul>
+                  <div class="py-1">
+                    <a href="#"
+                       class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Delete
+                      all</a>
+                  </div>
+                </div>
+                <!--            GET USERS -->
+                <button (click)="getUsers(true)" type="button"
+                        class="py-2.5 px-5 mr-2 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 inline-flex items-center">
+                  <svg *ngIf="refreshing" aria-hidden="true"
+                       class="inline w-4 h-4 text-gray-200 animate-spin dark:text-gray-600"
+                       viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                      fill="currentColor"/>
+                    <path
+                      d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                      fill="#1C64F2"/>
+                  </svg>
+                  <svg *ngIf="!refreshing" aria-hidden="true"
+                       class="inline w-4 h-4 text-gray-200 dark:text-gray-600" viewBox="0 0 100 101"
+                       fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                      fill="currentColor"/>
+                    <path
+                      d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                      fill="#1C64F2"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+              <thead
+                class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <tr>
+                <th scope="col" class="px-4 py-3">Photo</th>
+                <th scope="col" class="px-4 py-3">User ID</th>
+                <th scope="col" class="px-4 py-3">First Name</th>
+                <th scope="col" class="px-4 py-3">Last Name</th>
+                <th scope="col" class="px-4 py-3">Username</th>
+                <th scope="col" class="px-4 py-3">Email</th>
+                <th scope="col" class="px-4 py-3">Status</th>
+                <th scope="col" class="px-4 py-3">
+                  <span class="sr-only">Actions</span>
+                </th>
+                <th scope="col" class="px-4 py-3">
+                  <span class="sr-only">Actions</span>
+                </th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr class="border-b dark:border-gray-700"
+                  *ngFor="let user of users">
+                <!--            <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">Apple iMac 27&#34;</th>-->
+                <td>
+                  <!--              <img height="40" width="40" src="{{user.profileImageUrl}}" class="rounded-circle img-fluid img-thumbnail" alt=""/>-->
+                  <img class="ml-4 w-9 h-9 rounded-full"
+                       [src]="user.profileImageUrl"
+                       alt="Rounded avatar">
+                </td>
+                <td (click)="onSelectUser(user)" class="px-4 py-3">{{user.userId}}</td>
+                <td (click)="onSelectUser(user)" class="px-4 py-3">{{user.firstname}}</td>
+                <td (click)="onSelectUser(user)" class="px-4 py-3">{{user.lastname}}</td>
+                <td (click)="onSelectUser(user)" class="px-4 py-3">{{user.username}}</td>
+                <td (click)="onSelectUser(user)" class="px-4 py-3">{{user.email}}</td>
+                <td class="px-4 py-3">
+                  <span [hidden]="user.active"
+                        class="bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Inactive</span>
+                  <span [hidden]="!user.active"
+                        class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">Active</span>
+                </td>
+                <td (click)="onEditUser(user)" class="px-4 py-3">Edit</td>
+                <td (click)="onDeleteUser(user.username)"
+                    [hidden]="!isAdmin"
+                    class="px-4 py-3">
+                  Delete
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <nav
+            class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4"
+            aria-label="Table navigation">
+                <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
+                    Showing
+                    <span class="font-semibold text-gray-900 dark:text-white">1-10</span>
+                    of
+                    <span class="font-semibold text-gray-900 dark:text-white">1000</span>
+                </span>
+            <ul class="inline-flex items-stretch -space-x-px">
+              <li>
+                <a href="#"
+                   class="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                  <span class="sr-only">Previous</span>
+                  <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20"
+                       xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                          d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                          clip-rule="evenodd"/>
+                  </svg>
+                </a>
+              </li>
+              <li>
+                <a href="#"
+                   class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">1</a>
+              </li>
+              <li>
+                <a href="#"
+                   class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">2</a>
+              </li>
+              <li>
+                <a href="#" aria-current="page"
+                   class="flex items-center justify-center text-sm z-10 py-2 px-3 leading-tight text-primary-600 bg-primary-50 border border-primary-300 hover:bg-primary-100 hover:text-primary-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">3</a>
+              </li>
+              <li>
+                <a href="#"
+                   class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">...</a>
+              </li>
+              <li>
+                <a href="#"
+                   class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">100</a>
+              </li>
+              <li>
+                <a href="#"
+                   class="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                  <span class="sr-only">Next</span>
+                  <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20"
+                       xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                          d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                          clip-rule="evenodd"/>
+                  </svg>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="bg-gray-50" id="settings" role="tabpanel" aria-labelledby="settings-tab">
+    <section class="bg-white dark:bg-gray-900">
+      <div class="py-8 lg:py-16 px-4 mx-auto max-w-screen-md"
+           [hidden]="!isAdmin">
+        <h2
+          class="mb-4 text-4xl tracking-tight font-extrabold text-center text-gray-900 dark:text-white">
+          User Password Management</h2>
+        <form action="#"
+              #resetPasswordForm="ngForm"
+              (ngSubmit)="onResetPassword(resetPasswordForm)"
+              class="space-y-8">
+          <div>
+            <label for="email"
+                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Email
+              Address</label>
+            <input type="email"
+                   class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
+                   placeholder="name@flowbite.com"
+                   ngModel
+                   name="reset-password-email"
+                   required>
+          </div>
+          <button type="submit"
+                  [disabled]="false"
+                  class="py-3 px-5 text-sm font-medium text-center text-white rounded-lg bg-blue-800 sm:w-fit hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+            <svg *ngIf="refreshing" aria-hidden="true"
+                 class="inline w-4 h-4 text-gray-200 animate-spin dark:text-gray-600"
+                 viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                fill="currentColor"/>
+              <path
+                d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                fill="#1C64F2"/>
+            </svg>
+            <span *ngIf="refreshing">Loading</span>
+            <span *ngIf="!refreshing">Reset Password</span>
+          </button>
+        </form>
+      </div>
+    </section>
+  </div>
+  <div class="bg-inherit" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+    <section class="bg-white dark:bg-gray-900">
+      <div class="flex flex-col items-center pb-10">
+        <img class="w-24 h-24 mb-3 rounded-full shadow-lg"
+             src="{{user.profileImageUrl}}"
+             alt="{{user.username}}"/>
+        <div>
+          <input
+            class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+            name="profileImage"
+            accept="image/*"
+            (change)="onProfileImageChange($any($event).target.files[0].name, $any($event).target.files[0]); onUpdateProfileImage()"
+            type="file">
+          <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"></label>
+          <div *ngIf="fileStatus?.status === 'progress'"
+               class="w-full bg-gray-200 rounded-full dark:bg-gray-700">
+            <div
+              class="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
+              [style.width.%]="fileStatus?.percentage">
+              {{fileStatus?.percentage}}%
+            </div>
+          </div>
+        </div>
+        <h5
+          class="mb-1 text-xl font-medium text-gray-900 dark:text-white">{{user.firstname}} {{user.lastname}}</h5>
+        <span class="text-sm text-gray-500 dark:text-gray-400">{{user.username}}</span>
+        <span class="text-sm text-gray-500 dark:text-gray-400">
+          status:
+          <span *ngIf="!user.active"
+                class="bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Inactive</span>
+          <span *ngIf="user.active"
+                class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">Active</span>
+        </span>
+        <div class="flex mt-4 space-x-3 md:mt-6">
+          <a href="#"
+             class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            login: {{user?.lastLogInDateDisplay | date: 'medium'}}
+          </a>
+          <a href="#"
+             class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700">
+            join: {{user?.joinDate | date: 'medium'}}
+          </a>
+        </div>
+        <div class="mt-4">
+          <h2 class="mb-2 text-lg text-white">Permission form roles : </h2>
+          <ul class="mb-8 space-y-4 text-left text-gray-500 dark:text-gray-400"
+              *ngFor="let authority of user.authorities">
+            <li class="flex items-center space-x-3">
+              <!-- Icon -->
+              <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400"
+                   fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                      clip-rule="evenodd"></path>
+              </svg>
+              <span>{{authority}}</span>
+            </li>
+          </ul>
+
+        </div>
+
+      </div>
+      <div class="px-6 py-6 lg:px-8">
+        <form class="space-y-6"
+              (ngSubmit)="onUpdateCurrentUser(profileUserForm.value)"
+              #profileUserForm="ngForm">
+          <div>
+            <label for="firstname"
+                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              Your First Name
+            </label>
+            <input type="text"
+                   [(ngModel)]="user.firstname"
+                   name="firstname"
+                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                   placeholder="Firstname"
+                   required>
+          </div>
+          <div>
+            <label for="lastname"
+                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              Your Last Name
+            </label>
+            <input type="text"
+                   [(ngModel)]="user.lastname"
+                   name="lastname"
+                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                   placeholder="Lastname"
+                   required>
+          </div>
+          <div>
+            <label for="username"
+                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your
+              Username</label>
+            <input type="email"
+                   [(ngModel)]="user.username"
+                   name="username"
+                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                   placeholder="Username"
+                   required>
+          </div>
+          <div>
+            <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              Your email
+            </label>
+            <input type="email"
+                   [(ngModel)]="user.email"
+                   name="email"
+                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                   placeholder="name@company.com"
+                   required>
+          </div>
+          <div>
+            <label for="authority"
+                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Role</label>
+            <select
+              [(ngModel)]="user.role"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              required
+              name="role">
+              <option value="ROLE_USER" selected>USER</option>
+              <option value="ROLE_HR">HR</option>
+              <option value="ROLE_MANAGER">MANAGER</option>
+              <option value="ROLE_ADMIN">ADMIN</option>
+              <option value="ROLE_SUPER_ADMIN">SUPER_ADMIN</option>
+            </select>
+          </div>
+          <div class="flex justify-between">
+            <div class="flex items-start">
+              <div class="flex items-center h-5">
+                <input type="checkbox"
+                       name="active"
+                       [(ngModel)]="user.active"
+                       class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-600 dark:border-gray-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
+                       required>
+              </div>
+              <label for="active" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Active</label>
+            </div>
+            <div class="flex items-start">
+              <div class="flex items-center h-5">
+                <input type="checkbox"
+                       name="notLocked"
+                       [(ngModel)]="user.notLocked"
+                       class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-600 dark:border-gray-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
+                       required>
+              </div>
+              <label for="notLocked"
+                     class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Unlocked</label>
+            </div>
+          </div>
+          <button type="submit"
+                  class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            Edit User
+          </button>
+        </form>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- USER INFO -->
+
+<button id="openUserInfo"
+        data-modal-target="viewUserInfo"
+        data-modal-toggle="viewUserInfo"
+        class="hidden block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        type="button"></button>
+
+<!-- Main modal -->
+<div id="viewUserInfo"
+     tabindex="-1"
+     aria-hidden="true"
+     class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
+  <div class="relative w-full h-full max-w-md md:h-auto">
+    <!-- Modal content -->
+    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+      <button type="button"
+              class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
+              data-modal-hide="viewUserInfo">
+        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+             xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd"
+                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                clip-rule="evenodd"></path>
+        </svg>
+        <span class="sr-only">Close modal</span>
+      </button>
+      <div class="px-6 py-6 lg:px-8">
+        <h3
+          class="mb-4 text-xl font-medium text-gray-900 dark:text-white">{{selectedUser?.firstname}} {{selectedUser?.lastname}}</h3>
+        <div
+          class="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 dark:bg-gray-800 dark:border-gray-700">
+          <img class="w-24 h-24 mb-3 rounded-full shadow-lg"
+               src="{{selectedUser?.profileImageUrl}}"
+               alt="Bonnie image"/>
+          <h5
+            class="mb-1 text-xl font-medium text-gray-900 dark:text-white">{{selectedUser?.firstname}} {{selectedUser?.lastname}}</h5>
+          <span
+            class="text-sm text-gray-500 dark:text-gray-400">{{selectedUser?.username}}</span><br>
+          <span class="text-sm text-gray-500 dark:text-gray-400">status: </span>
+          <span [hidden]="selectedUser?.active"
+                class="bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Inactive</span>
+          <span [hidden]="!selectedUser?.active"
+                class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">Active</span>
+          <div class="flex mt-4 space-x-3 md:mt-6">
+            <a href="#"
+               class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">login: {{selectedUser?.lastLogInDateDisplay | date: 'medium'}}</a>
+            <a href="#"
+               class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700">join: {{selectedUser?.joinDate | date: 'medium'}}</a>
+          </div>
+          <ul class="my-4 space-y-3">
+            <li>
+              <a href="#"
+                 class="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
+                <svg aria-hidden="true" class="h-4" viewBox="0 0 40 38" fill="none"
+                     xmlns="http://www.w3.org/2000/svg">
+                  <path d="M39.0728 0L21.9092 12.6999L25.1009 5.21543L39.0728 0Z" fill="#E17726"/>
+                  <path d="M0.966797 0.0151367L14.9013 5.21656L17.932 12.7992L0.966797 0.0151367Z"
+                        fill="#E27625"/>
+                  <path
+                    d="M32.1656 27.0093L39.7516 27.1537L37.1004 36.1603L27.8438 33.6116L32.1656 27.0093Z"
+                    fill="#E27625"/>
+                  <path
+                    d="M7.83409 27.0093L12.1399 33.6116L2.89876 36.1604L0.263672 27.1537L7.83409 27.0093Z"
+                    fill="#E27625"/>
+                  <path
+                    d="M17.5203 10.8677L17.8304 20.8807L8.55371 20.4587L11.1924 16.4778L11.2258 16.4394L17.5203 10.8677Z"
+                    fill="#E27625"/>
+                  <path
+                    d="M22.3831 10.7559L28.7737 16.4397L28.8067 16.4778L31.4455 20.4586L22.1709 20.8806L22.3831 10.7559Z"
+                    fill="#E27625"/>
+                  <path d="M12.4115 27.0381L17.4768 30.9848L11.5928 33.8257L12.4115 27.0381Z"
+                        fill="#E27625"/>
+                  <path d="M27.5893 27.0376L28.391 33.8258L22.5234 30.9847L27.5893 27.0376Z"
+                        fill="#E27625"/>
+                  <path
+                    d="M22.6523 30.6128L28.6066 33.4959L23.0679 36.1282L23.1255 34.3884L22.6523 30.6128Z"
+                    fill="#D5BFB2"/>
+                  <path
+                    d="M17.3458 30.6143L16.8913 34.3601L16.9286 36.1263L11.377 33.4961L17.3458 30.6143Z"
+                    fill="#D5BFB2"/>
+                  <path d="M15.6263 22.1875L17.1822 25.4575L11.8848 23.9057L15.6263 22.1875Z"
+                        fill="#233447"/>
+                  <path d="M24.3739 22.1875L28.133 23.9053L22.8184 25.4567L24.3739 22.1875Z"
+                        fill="#233447"/>
+                  <path d="M12.8169 27.0049L11.9606 34.0423L7.37109 27.1587L12.8169 27.0049Z"
+                        fill="#CC6228"/>
+                  <path d="M27.1836 27.0049L32.6296 27.1587L28.0228 34.0425L27.1836 27.0049Z"
+                        fill="#CC6228"/>
+                  <path
+                    d="M31.5799 20.0605L27.6165 24.0998L24.5608 22.7034L23.0978 25.779L22.1387 20.4901L31.5799 20.0605Z"
+                    fill="#CC6228"/>
+                  <path
+                    d="M8.41797 20.0605L17.8608 20.4902L16.9017 25.779L15.4384 22.7038L12.3988 24.0999L8.41797 20.0605Z"
+                    fill="#CC6228"/>
+                  <path d="M8.15039 19.2314L12.6345 23.7816L12.7899 28.2736L8.15039 19.2314Z"
+                        fill="#E27525"/>
+                  <path d="M31.8538 19.2236L27.2061 28.2819L27.381 23.7819L31.8538 19.2236Z"
+                        fill="#E27525"/>
+                  <path
+                    d="M17.6412 19.5088L17.8217 20.6447L18.2676 23.4745L17.9809 32.166L16.6254 25.1841L16.625 25.1119L17.6412 19.5088Z"
+                    fill="#E27525"/>
+                  <path
+                    d="M22.3562 19.4932L23.3751 25.1119L23.3747 25.1841L22.0158 32.1835L21.962 30.4328L21.75 23.4231L22.3562 19.4932Z"
+                    fill="#E27525"/>
+                  <path
+                    d="M27.7797 23.6011L27.628 27.5039L22.8977 31.1894L21.9414 30.5138L23.0133 24.9926L27.7797 23.6011Z"
+                    fill="#F5841F"/>
+                  <path
+                    d="M12.2373 23.6011L16.9873 24.9926L18.0591 30.5137L17.1029 31.1893L12.3723 27.5035L12.2373 23.6011Z"
+                    fill="#F5841F"/>
+                  <path
+                    d="M10.4717 32.6338L16.5236 35.5013L16.4979 34.2768L17.0043 33.8323H22.994L23.5187 34.2753L23.48 35.4989L29.4935 32.641L26.5673 35.0591L23.0289 37.4894H16.9558L13.4197 35.0492L10.4717 32.6338Z"
+                    fill="#C0AC9D"/>
+                  <path
+                    d="M22.2191 30.231L23.0748 30.8354L23.5763 34.8361L22.8506 34.2234H17.1513L16.4395 34.8485L16.9244 30.8357L17.7804 30.231H22.2191Z"
+                    fill="#161616"/>
+                  <path
+                    d="M37.9395 0.351562L39.9998 6.53242L38.7131 12.7819L39.6293 13.4887L38.3895 14.4346L39.3213 15.1542L38.0875 16.2779L38.8449 16.8264L36.8347 19.1742L28.5894 16.7735L28.5179 16.7352L22.5762 11.723L37.9395 0.351562Z"
+                    fill="#763E1A"/>
+                  <path
+                    d="M2.06031 0.351562L17.4237 11.723L11.4819 16.7352L11.4105 16.7735L3.16512 19.1742L1.15488 16.8264L1.91176 16.2783L0.678517 15.1542L1.60852 14.4354L0.350209 13.4868L1.30098 12.7795L0 6.53265L2.06031 0.351562Z"
+                    fill="#763E1A"/>
+                  <path
+                    d="M28.1861 16.2485L36.9226 18.7921L39.7609 27.5398L32.2728 27.5398L27.1133 27.6049L30.8655 20.2912L28.1861 16.2485Z"
+                    fill="#F5841F"/>
+                  <path
+                    d="M11.8139 16.2485L9.13399 20.2912L12.8867 27.6049L7.72971 27.5398H0.254883L3.07728 18.7922L11.8139 16.2485Z"
+                    fill="#F5841F"/>
+                  <path
+                    d="M25.5283 5.17383L23.0847 11.7736L22.5661 20.6894L22.3677 23.4839L22.352 30.6225H17.6471L17.6318 23.4973L17.4327 20.6869L16.9139 11.7736L14.4707 5.17383H25.5283Z"
+                    fill="#F5841F"/>
+                </svg>
+                <span class="flex-1 ml-3 whitespace-nowrap">{{selectedUser?.userId}}</span>
+                <span
+                  class="inline-flex items-center justify-center px-2 py-0.5 ml-3 text-xs font-medium text-gray-500 bg-gray-200 rounded dark:bg-gray-700 dark:text-gray-400">Popular</span>
+              </a>
+            </li>
+            <li>
+              <a href="#"
+                 class="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
+                <svg aria-hidden="true" class="h-5" viewBox="0 0 292 292" fill="none"
+                     xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M145.7 291.66C226.146 291.66 291.36 226.446 291.36 146C291.36 65.5541 226.146 0.339844 145.7 0.339844C65.2542 0.339844 0.0400391 65.5541 0.0400391 146C0.0400391 226.446 65.2542 291.66 145.7 291.66Z"
+                    fill="#3259A5"/>
+                  <path
+                    d="M195.94 155.5C191.49 179.08 170.8 196.91 145.93 196.91C117.81 196.91 95.0204 174.12 95.0204 146C95.0204 117.88 117.81 95.0897 145.93 95.0897C170.8 95.0897 191.49 112.93 195.94 136.5H247.31C242.52 84.7197 198.96 44.1797 145.93 44.1797C89.6904 44.1797 44.1104 89.7697 44.1104 146C44.1104 202.24 89.7004 247.82 145.93 247.82C198.96 247.82 242.52 207.28 247.31 155.5H195.94Z"
+                    fill="white"/>
+                </svg>
+                <span class="flex-1 ml-3 whitespace-nowrap">{{selectedUser?.email}}</span>
+              </a>
+            </li>
+            <li>
+              <a href="#"
+                 class="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
+                <svg aria-hidden="true" svg class="h-5" viewBox="0 0 75.591 75.591"
+                     xmlns="http://www.w3.org/2000/svg">
+                  <linearGradient id="a"
+                                  gradientTransform="matrix(0 -54.944 -54.944 0 23.62 79.474)"
+                                  gradientUnits="userSpaceOnUse" x2="1">
+                    <stop offset="0" stop-color="#ff1b2d"/>
+                    <stop offset=".3" stop-color="#ff1b2d"/>
+                    <stop offset=".614" stop-color="#ff1b2d"/>
+                    <stop offset="1" stop-color="#a70014"/>
+                  </linearGradient>
+                  <linearGradient id="b"
+                                  gradientTransform="matrix(0 -48.595 -48.595 0 37.854 76.235)"
+                                  gradientUnits="userSpaceOnUse" x2="1">
+                    <stop offset="0" stop-color="#9c0000"/>
+                    <stop offset=".7" stop-color="#ff4b4b"/>
+                    <stop offset="1" stop-color="#ff4b4b"/>
+                  </linearGradient>
+                  <g transform="matrix(1.3333 0 0 -1.3333 0 107.2)">
+                    <path
+                      d="m28.346 80.398c-15.655 0-28.346-12.691-28.346-28.346 0-15.202 11.968-27.609 26.996-28.313.44848-.02115.89766-.03314 1.3504-.03314 7.2574 0 13.876 2.7289 18.891 7.2137-3.3227-2.2036-7.2074-3.4715-11.359-3.4715-6.7504 0-12.796 3.3488-16.862 8.6297-3.1344 3.6999-5.1645 9.1691-5.3028 15.307v1.3349c.13821 6.1377 2.1683 11.608 5.302 15.307 4.0666 5.2809 10.112 8.6297 16.862 8.6297 4.1526 0 8.038-1.2679 11.361-3.4729-4.9904 4.4643-11.569 7.1876-18.786 7.2144-.03596 0-.07122.0014-.10718.0014z"
+                      fill="url(#a)"/>
+                    <path
+                      d="m19.016 68.025c2.6013 3.0709 5.9607 4.9227 9.631 4.9227 8.2524 0 14.941-9.356 14.941-20.897s-6.6891-20.897-14.941-20.897c-3.6703 0-7.0297 1.851-9.6303 4.922 4.0659-5.2809 10.111-8.6297 16.862-8.6297 4.1519 0 8.0366 1.2679 11.359 3.4715 5.802 5.1906 9.4554 12.735 9.4554 21.133 0 8.397-3.6527 15.941-9.4533 21.131-3.3234 2.205-7.2088 3.4729-11.361 3.4729-6.7504 0-12.796-3.3488-16.862-8.6297"
+                      fill="url(#b)"/>
+                  </g>
+                </svg>
+                <span class="flex-1 ml-3 whitespace-nowrap">{{selectedUser?.role | slice:5}}</span>
+              </a>
+            </li>
+            <li [hidden]="selectedUser?.lastLogInDateDisplay == null">
+              <a href="#"
+                 class="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
+                <svg aria-hidden="true" class="h-5" viewBox="0 0 512 512"
+                     xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <radialGradient cx="0%" cy="50%" fx="0%" fy="50%" r="100%"
+                                    id="radialGradient-1">
+                      <stop stop-color="#5D9DF6" offset="0%"></stop>
+                      <stop stop-color="#006FFF" offset="100%"></stop>
+                    </radialGradient>
+                  </defs>
+                  <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                    <g id="logo">
+                      <rect id="base" fill="url(#radialGradient-1)" x="0" y="0" width="512"
+                            height="512" rx="256"></rect>
+                      <path
+                        d="M169.209772,184.531136 C217.142772,137.600733 294.857519,137.600733 342.790517,184.531136 L348.559331,190.179285 C350.955981,192.525805 350.955981,196.330266 348.559331,198.676787 L328.82537,217.99798 C327.627045,219.171241 325.684176,219.171241 324.485851,217.99798 L316.547278,210.225455 C283.10802,177.485633 228.89227,177.485633 195.453011,210.225455 L186.951456,218.549188 C185.75313,219.722448 183.810261,219.722448 182.611937,218.549188 L162.877976,199.227995 C160.481326,196.881474 160.481326,193.077013 162.877976,190.730493 L169.209772,184.531136 Z M383.602212,224.489406 L401.165475,241.685365 C403.562113,244.031874 403.562127,247.836312 401.165506,250.182837 L321.971538,327.721548 C319.574905,330.068086 315.689168,330.068112 313.292501,327.721609 C313.292491,327.721599 313.29248,327.721588 313.29247,327.721578 L257.08541,272.690097 C256.486248,272.103467 255.514813,272.103467 254.915651,272.690097 C254.915647,272.690101 254.915644,272.690105 254.91564,272.690108 L198.709777,327.721548 C196.313151,330.068092 192.427413,330.068131 190.030739,327.721634 C190.030725,327.72162 190.03071,327.721606 190.030695,327.721591 L110.834524,250.181849 C108.437875,247.835329 108.437875,244.030868 110.834524,241.684348 L128.397819,224.488418 C130.794468,222.141898 134.680206,222.141898 137.076856,224.488418 L193.284734,279.520668 C193.883897,280.107298 194.85533,280.107298 195.454493,279.520668 C195.454502,279.520659 195.45451,279.520651 195.454519,279.520644 L251.65958,224.488418 C254.056175,222.141844 257.941913,222.141756 260.338618,224.488222 C260.338651,224.488255 260.338684,224.488288 260.338717,224.488321 L316.546521,279.520644 C317.145683,280.107273 318.117118,280.107273 318.71628,279.520644 L374.923175,224.489406 C377.319825,222.142885 381.205562,222.142885 383.602212,224.489406 Z"
+                        id="WalletConnect" fill="#FFFFFF" fill-rule="nonzero"></path>
+                    </g>
+                  </g>
+                </svg>
+                <span
+                  class="flex-1 ml-3 whitespace-nowrap">login: {{selectedUser?.lastLogInDateDisplay | date: 'medium'}}</span>
+              </a>
+            </li>
+            <li>
+              <a href="#"
+                 class="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
+                <svg aria-hidden="true" class="h-4" viewBox="0 0 96 96" fill="none"
+                     xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M72.0998 0.600098H48.3998H24.5998H0.799805V24.4001V48.2001V49.7001V71.8001V71.9001V95.5001H24.5998V72.0001V71.9001V49.8001V48.3001V24.5001H48.3998H72.1998H95.9998V0.700104H72.0998V0.600098Z"
+                    fill="#617BFF"/>
+                  <path
+                    d="M48.5 71.8002H72.1V95.6002H73C79.1 95.6002 84.9 93.2002 89.2 88.9002C93.5 84.6002 95.9 78.8002 95.9 72.7002V48.2002H48.5V71.8002Z"
+                    fill="#617BFF"/>
+                </svg>
+                <span class="flex-1 ml-3 whitespace-nowrap">status</span>
+                <span [hidden]="selectedUser?.active"
+                      class="bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Inactive</span>
+                <span [hidden]="!selectedUser?.active"
+                      class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">Active</span>
+              </a>
+            </li>
+            <li>
+              <a href="#"
+                 class="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
+                <svg aria-hidden="true" class="h-4" viewBox="0 0 96 96" fill="none"
+                     xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M72.0998 0.600098H48.3998H24.5998H0.799805V24.4001V48.2001V49.7001V71.8001V71.9001V95.5001H24.5998V72.0001V71.9001V49.8001V48.3001V24.5001H48.3998H72.1998H95.9998V0.700104H72.0998V0.600098Z"
+                    fill="#617BFF"/>
+                  <path
+                    d="M48.5 71.8002H72.1V95.6002H73C79.1 95.6002 84.9 93.2002 89.2 88.9002C93.5 84.6002 95.9 78.8002 95.9 72.7002V48.2002H48.5V71.8002Z"
+                    fill="#617BFF"/>
+                </svg>
+                <span class="flex-1 ml-3 whitespace-nowrap">Account</span>
+                <span [hidden]="selectedUser?.notLocked"
+                      class="bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Locked</span>
+                <span [hidden]="!selectedUser?.notLocked"
+                      class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">Not Locked</span>
+              </a>
+            </li>
+          </ul>
+          <button type="submit"
+                  class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            Login to your account
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--ADD USER-->
+
+<div id="add-User-modal"
+     tabindex="-1"
+     [hidden]="!isAdmin"
+     aria-hidden="true"
+     class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
+  <div class="relative w-full h-full max-w-md md:h-auto">
+    <!-- Modal content -->
+    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+      <button id="hide-modal-add-user" type="button"
+              class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
+              data-modal-hide="add-User-modal">
+        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+             xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd"
+                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                clip-rule="evenodd"></path>
+        </svg>
+        <span class="sr-only">Close modal</span>
+      </button>
+      <div class="px-6 py-6 lg:px-8">
+        <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Add User</h3>
+        <form class="space-y-6"
+              #newUserForm="ngForm"
+              (ngSubmit)="onAddNewUser(newUserForm)"
+              action="#">
+          <div>
+            <label for="firstname"
+                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your First
+              Name</label>
+            <input type="text"
+                   name="firstname"
+                   ngModel
+                   id="firstname"
+                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                   placeholder="Firstname"
+                   required>
+          </div>
+          <div>
+            <label for="lastname"
+                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Last
+              Name</label>
+            <input type="text"
+                   name="lastname"
+                   id="lastname"
+                   ngModel
+                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                   placeholder="Lastname"
+                   required>
+          </div>
+          <div>
+            <label for="username"
+                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your
+              Username</label>
+            <input type="email"
+                   name="username"
+                   id="username"
+                   ngModel
+                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                   placeholder="Username"
+                   required>
+          </div>
+          <div>
+            <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your
+              email</label>
+            <input type="email"
+                   name="email"
+                   id="email"
+                   ngModel
+                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                   placeholder="name@company.com"
+                   required>
+          </div>
+          <div>
+            <label for="authority"
+                   [hidden]="!isAdmin"
+                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Role</label>
+            <select id="authority"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    ngModel="ROLE_USER"
+                    required
+                    name="role">
+              <option value="ROLE_USER" selected>USER</option>
+              <option value="ROLE_HR">HR</option>
+              <option value="ROLE_MANAGER">MANAGER</option>
+              <option value="ROLE_ADMIN">ADMIN</option>
+              <option value="ROLE_SUPER_ADMIN">SUPER_ADMIN</option>
+            </select>
+          </div>
+          <div *ngIf="!isAdmin" class="from-group">
+            <label for="authority">Role</label>
+            <input type="text" name="role" required ngModel="USER" readonly class="form-control">
+          </div>
+          <div>
+            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                   for="profileImage">
+              Profile Picture
+            </label>
+            <input
+              class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+              id="profileImage"
+              (change)="onProfileImageChange($any($event).target.files[0].name, $any($event).target.files[0])"
+              name="profileImage"
+              type="file">
+            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              <span [hidden]="!fileName">{{fileName}}</span>
+              <span [hidden]="fileName">Choose File</span>
+            </label>
+          </div>
+          <div class="flex justify-between">
+            <div class="flex items-start">
+              <div class="flex items-center h-5">
+                <input id="active"
+                       type="checkbox"
+                       name="active"
+                       ngModel
+                       value=""
+                       class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-600 dark:border-gray-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
+                       required>
+              </div>
+              <label for="active" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Active</label>
+            </div>
+            <div class="flex items-start">
+              <div class="flex items-center h-5">
+                <input id="notLocked"
+                       type="checkbox"
+                       name="notLocked"
+                       ngModel
+                       value=""
+                       class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-600 dark:border-gray-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
+                       required>
+              </div>
+              <label for="notLocked"
+                     class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Unlocked</label>
+            </div>
+          </div>
+          <button type="submit"
+                  [disabled]="newUserForm.invalid"
+                  id="nw-user-save"
+                  class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            Add User
+          </button>
+        </form>
+        <!--        <div class="mt-4">-->
+        <!--          <button type="button"-->
+        <!--                  [disabled]="false"-->
+        <!--                  class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">-->
+        <!--            Save changes-->
+        <!--          </button>-->
+        <!--        </div>-->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT USER -->
+
+<button id="openEditUser"
+        data-modal-target="viewEditUser"
+        data-modal-toggle="viewEditUser"
+        class="hidden block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        type="button"></button>
+
+<div id="viewEditUser"
+     tabindex="-1"
+     aria-hidden="true"
+     class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
+  <div class="relative w-full h-full max-w-md md:h-auto">
+    <!-- Modal content -->
+    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+      <button id="hide-modal-edit-user" type="button"
+              class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
+              data-modal-hide="viewEditUser">
+        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+             xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd"
+                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                clip-rule="evenodd"></path>
+        </svg>
+        <span class="sr-only">Close modal</span>
+      </button>
+      <div class="px-6 py-6 lg:px-8">
+        <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">
+          Edit {{editUser?.firstname}} {{editUser?.lastname}} <span [hidden]="isAdminOrManager">(read only)</span>
+        </h3>
+        <form class="space-y-6"
+              #editUserForm="ngForm">
+          <div>
+            <label for="firstname"
+                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your First
+              Name</label>
+            <input type="text"
+                   name="firstname"
+                   [disabled]="!isAdminOrManager"
+                   [(ngModel)]="editUser.firstname"
+                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                   placeholder="Firstname"
+                   required>
+          </div>
+          <div>
+            <label for="lastname"
+                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Last
+              Name</label>
+            <input type="text"
+                   name="lastname"
+                   [disabled]="!isAdminOrManager"
+                   [(ngModel)]="editUser.lastname"
+                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                   placeholder="Lastname"
+                   required>
+          </div>
+          <div>
+            <label for="username"
+                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your
+              Username</label>
+            <input type="email"
+                   name="username"
+                   [disabled]="!isAdminOrManager"
+                   [(ngModel)]="editUser.username"
+                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                   placeholder="Username"
+                   required>
+          </div>
+          <div>
+            <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your
+              email</label>
+            <input type="email"
+                   name="email"
+                   [disabled]="!isAdminOrManager"
+                   [(ngModel)]="editUser.email"
+                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                   placeholder="name@company.com"
+                   required>
+          </div>
+          <div *ngIf="isAdmin">
+            <label for="authority"
+                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              Role <small [hidden]="isAdmin">(read only)</small>
+            </label>
+            <select
+              [disabled]="!isAdmin"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              [(ngModel)]="editUser.role"
+              required
+              name="role">
+              <option value="ROLE_USER" selected>USER</option>
+              <option value="ROLE_HR">HR</option>
+              <option value="ROLE_MANAGER">MANAGER</option>
+              <option value="ROLE_ADMIN">ADMIN</option>
+              <option value="ROLE_SUPER_ADMIN">SUPER_ADMIN</option>
+            </select>
+          </div>
+          <div>
+            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                   for="profileImage">
+              Profile Picture
+            </label>
+            <input
+              [disabled]="!isAdminOrManager"
+              class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+              name="profileImage"
+              (change)="onProfileImageChange($any($event).target.files[0].name, $any($event).target.files[0])"
+              type="file">
+            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              <span [hidden]="!fileName">{{fileName}}</span>
+              <span [hidden]="fileName">Choose File</span>
+            </label>
+          </div>
+          <div class="flex justify-between">
+            <div class="flex items-start">
+              <div class="flex items-center h-5">
+                <input type="checkbox"
+                       name="active"
+                       [disabled]="!isManager"
+                       [(ngModel)]="editUser.active"
+                       class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-600 dark:border-gray-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
+                       required>
+              </div>
+              <label for="active" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                Active <small [hidden]="isManager">(read only)</small>
+              </label>
+            </div>
+            <div class="flex items-start">
+              <div class="flex items-center h-5">
+                <input type="checkbox"
+                       name="notLocked"
+                       [disabled]="!isManager"
+                       [(ngModel)]="editUser.notLocked"
+                       class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-600 dark:border-gray-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
+                       required>
+              </div>
+              <label for="notLocked"
+                     class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                Unlocked <small [hidden]="isManager">(read only)</small>
+              </label>
+            </div>
+          </div>
+          <button type="submit"
+                  (click)="onUpdateUser()"
+                  [disabled]="editUserForm.invalid || isAdminOrManager"
+                  class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            Edit User
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
